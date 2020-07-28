@@ -1,0 +1,43 @@
+<form [formGroup]="employeeForm" class="form-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Employee</h2>
+            <label>
+                First Name:
+                <input class="form-control" type="text" formControlName="firstName">
+            </label>
+
+            <label>
+                Last Name:
+                <input class="form-control" type="text" formControlName="lastName">
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <h2 class="col-sm-8">Dependents</h2>
+        <button class="col-sm-4" (click)="addDependent()">Add Dependent</button>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div formArrayName="dependents">
+                <div *ngFor="let item of dependentForms.controls; let dependentIndex=index" [formGroupName]="dependentIndex">
+                    <label>
+                        First Name:
+                        <input class="form-control" formControlName="dependentFirstName" />
+                    </label>
+                    <label>
+                        Last Name:
+                        <input class="form-control" formControlName="dependentLastName" />
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button (click)="save()">Save</button>
+
+</form>
