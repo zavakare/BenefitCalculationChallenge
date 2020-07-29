@@ -1,0 +1,11 @@
+<mat-tab-group mat-align-tabs="center" mat-stretch-tabs animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
+    <mat-tab name="addEmployeeTab" [label]="addTabLabel">
+        <add-employee (onSave)="addNewEmployee($event)"></add-employee>
+    </mat-tab>
+    <mat-tab name="viewEmployeesTab" [label]="viewTabLabel">
+        <view-employees *ngIf="gridData && tabSelected === viewTabLabel" [employees]="gridData"></view-employees>
+    </mat-tab>
+    <mat-tab name="benefitTab" [label]="benefitLabel">
+        <benefit-criteria *ngIf="tabSelected === benefitLabel"></benefit-criteria>
+    </mat-tab>
+</mat-tab-group>

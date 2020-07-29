@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Benefit } from '../employeeModel';
 
 @Injectable()
-export class EmployeeService {
+export class BenefitService {
+  private _benefitInfoSaved: Benefit = <Benefit>{};
   private headers: HttpHeaders;
-  private accessPointUrl: string = 'http://localhost:56923/api/Employee';
-  private accessPointBenefitUrl: string = 'http://localhost:56923/api/Benefit';
+  private accessPointUrl: string = 'http://localhost:56923/api/Benefit';
 
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+  }
+
+  public getBenefitInfo(): Benefit {
+      return this._benefitInfoSaved;
+  }
+
+  public setBenefitInfo(benefit: Benefit) {
+      this._benefitInfoSaved = benefit;
   }
 
   public get() {

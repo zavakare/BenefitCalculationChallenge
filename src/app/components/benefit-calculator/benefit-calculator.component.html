@@ -1,0 +1,30 @@
+<form [formGroup]="benefitForm" class="form-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Benefit Cost Calculation</h2>
+            <label>
+                # of Paychecks Per Year:
+                <input class="form-control" type="text" formControlName="totalPaychecks">
+            </label>
+            <label>
+                Benefit Cost Per Year: {{ benefitInfo.CostPerYear }}
+            </label>
+            <label>
+                Dependent Cost Per Year: {{ benefitInfo.DependentCost}}
+            </label>
+            <label>
+                Discount for names that begin with A (Employee or Dependent):
+                {{ benefitInfo.Discount }}
+            </label>
+            <label>
+                Employee Portion Per Year:
+                <input class="form-control" type="text" formControlName="employeePortion">
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" #toggle>
+                    <mat-button-toggle value="percent">Percent</mat-button-toggle>
+                    <mat-button-toggle value="currency">Currency</mat-button-toggle>
+                  </mat-button-toggle-group>
+            </label>
+            <button (click)="onCalculateClick()">Calculate</button>
+        </div>
+    </div>
+</form>

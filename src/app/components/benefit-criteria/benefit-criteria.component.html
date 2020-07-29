@@ -1,0 +1,22 @@
+<form [formGroup]="benefitForm" class="form-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Benefit Information</h2>
+            <label>
+                Total Benefit Cost Per Year:
+                <input class="form-control" type="text" formControlName="cost">
+            </label>
+
+            <label>
+                Dependent Cost Per Year:
+                <input class="form-control" type="text" formControlName="dependentCost">
+            </label>
+
+            <label>
+                Discount for names that begin with A (Employee or Dependent):
+                <input class="form-control" type="text" formControlName="discount">
+            </label>
+            <button (click)="save()">Save</button>
+        </div>
+    </div>
+</form>

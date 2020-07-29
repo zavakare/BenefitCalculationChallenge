@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { TestClass } from '../../../employeeModel';
 
 
 @Component({
@@ -10,9 +11,11 @@ export class AddEmployeeComponent {
   employeeForm = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
-    dependents: this._formBuilder.array([this._formBuilder.group({dependentFirstName:'', dependentLastName: ''})])
+    payCheckAmount: new FormControl('2000'),
+    totalPayChecks: new FormControl('26'),
+    dependents: this._formBuilder.array([this._formBuilder.group({FirstName:'', LastName: ''})])
   });
-
+  @Output() onSave = new EventEmitter<TestClass>();
 
   constructor(private _formBuilder: FormBuilder) { }
 
@@ -21,11 +24,18 @@ export class AddEmployeeComponent {
   }
 
   addDependent() {
-    this.dependentForms.push(this._formBuilder.group({dependentFirstName:'', dependentLastName: ''}));
+    this.dependentForms.push(this._formBuilder.group({FirstName:'', LastName: ''}));
   }
 
   save() {
-    //Send information to the parent
+    let employeeInfo = <TestClass>{
+      FirstName: this.employeeForm.get('firstName').value,
+      LastName: this.employeeForm.get('lastName').value,
+      PayCheckAmount: +this.employeeForm.get('payCheckAmount').value,
+      TotalPayChecks: +this.employeeForm.get('totalPayChecks').value,
+      Dependents: this.employeeForm.get('dependents').value
+    };
+    this.onSave.emit(employeeInfo);
   }
 
 }
