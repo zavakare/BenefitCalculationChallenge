@@ -2,29 +2,37 @@
     <div class="row">
         <div class="col-sm-12">
             <h2>Benefit Cost Calculation</h2>
-            <label>
-                # of Paychecks Per Year:
-                <input class="form-control" type="text" formControlName="totalPaychecks">
+            <div class="form-inline control-top">
+                <label>
+                    # of Paychecks Per Year:
+                    <input placeholder="Enter Paychecks Per Year" class="form-control" type="text" formControlName="totalPaychecks">
+                </label>
+                <label>
+                    Employer Portion Per Year:
+                    <input placeholder="Enter Employer Portion" class="form-control" type="text" formControlName="employerPortion">
+                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" #toggle = "matButtonToggleGroup">
+                        <mat-button-toggle [value]="valueEnum.Percentage">Percent</mat-button-toggle>
+                        <mat-button-toggle [value]="valueEnum.Currency">Currency</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12 control-top">
+            <label>Benefit Cost Per Year: <strong>{{ benefitInfo?.CostPerYear | currency}}</strong></label>
+        </div>
+        <div class="col-sm-12 control-top">
+            <label>Dependent Cost Per Year: <strong>{{ benefitInfo?.CostPerDependent | currency}}</strong></label>
+        </div>
+        <div class="col-sm-12 control-top">
+            <label>Discount for names that begin with A (Employee or Dependent):
+                <strong>{{ (benefitInfo?.Discount/100) | percent}}</strong>
             </label>
-            <label>
-                Benefit Cost Per Year: {{ benefitInfo.CostPerYear }}
-            </label>
-            <label>
-                Dependent Cost Per Year: {{ benefitInfo.DependentCost}}
-            </label>
-            <label>
-                Discount for names that begin with A (Employee or Dependent):
-                {{ benefitInfo.Discount }}
-            </label>
-            <label>
-                Employee Portion Per Year:
-                <input class="form-control" type="text" formControlName="employeePortion">
-                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" #toggle>
-                    <mat-button-toggle value="percent">Percent</mat-button-toggle>
-                    <mat-button-toggle value="currency">Currency</mat-button-toggle>
-                  </mat-button-toggle-group>
-            </label>
-            <button (click)="onCalculateClick()">Calculate</button>
+        </div>
+        
+      
+        
+        <div class="col-sm-offsett-right-9 col-sm-3">
+            <button  mat-raised-button color="primary" (click)="onCalculateClick()">Calculate</button>
         </div>
     </div>
 </form>

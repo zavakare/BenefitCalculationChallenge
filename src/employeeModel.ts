@@ -24,7 +24,7 @@ export interface Salary {
 export interface Benefit {
     Id: number;
     CostPerYear: number;
-    DependentCost: number; //per year
+    CostPerDependent: number; //per year
     Discount: number; //Names that start with A
 }
 

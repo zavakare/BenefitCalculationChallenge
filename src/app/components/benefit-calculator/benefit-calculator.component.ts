@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { Benefit } from '../../../employeeModel';
 import { BenefitService } from '../../benefit.service';
@@ -22,35 +22,32 @@ export interface DataEntered {
 export class BenefitCalculatorComponent implements OnInit {
     benefitForm = new FormGroup({
         totalPaychecks: new FormControl('26'),
-        employeetotalPaychecksPortionPerYear: new FormControl(''),
+        employerPortion: new FormControl('')
     });
     benefitInfo: Benefit = <Benefit>{};
+    valueEnum: any = ValueTypeEnum;
 
     @ViewChild('toggle') toggleGroup: MatButtonToggleGroup;
     @Output() calculate = new EventEmitter<DataEntered>();
 
-    constructor(
-        private _formBuilder: FormBuilder,
-        private _benefitService: BenefitService) { }
+    constructor(private _benefitService: BenefitService) { }
 
     ngOnInit() {
-        if (!this._benefitService.getBenefitInfo()) {
-            this._benefitService.get().subscribe((data: Benefit[]) => {
-                this._benefitService.setBenefitInfo(data[0]);
-            });
+        if (this._benefitService.getBenefitInfo() && this._benefitService.getBenefitInfo().Id){
+            this._setBenefitInfo(this._benefitService.getBenefitInfo());
         }
-        this._setBenefitInfo(this._benefitService.getBenefitInfo());
     }
 
     onCalculateClick() {
         let dataEntered = <DataEntered>{
-            Portion: this.benefitForm.get('employeePortionPerYear').value,
-            ValueType: this.toggleGroup.name || 1,
+            Portion: this.benefitForm.get('employerPortion').value,
+            ValueType: this.toggleGroup.value,
             TotalPaychecks: this.benefitForm.get('totalPaychecks').value,
         };
 
         this.calculate.emit(dataEntered);
     }
+
 
     private _setBenefitInfo(data: Benefit) {
         this.benefitInfo = { ...data };

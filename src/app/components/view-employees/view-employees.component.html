@@ -1,35 +1,36 @@
 <benefit-calculator (calculate)="calculatePortion($event)"></benefit-calculator>
+
 <table datatable [dtOptions]="dtEmployees" [dtTrigger]="dtTrigger" class="row-border hover">
-  <thead>
-    <tr>
-      <th>Employee Id</th>
-      <th>Employee Name</th>
-      <th># of Dependents</th>
-      <th>Paycheck Amount</th>
-      <th>Yearly Benefit Cost</th>
-      <th *ngIf="employees && employees[0].EmployeePortion">Yearly Employee Portion</th>
-      <th *ngIf="employees && employees[0].EmployerPortion">Yearly Employer Portion</th>
-      <th *ngIf="employees && employees[0].YearEmployeePortion">Paycheck Employee Portion</th>
-      <th *ngIf="employees && employees[0].YearEmployerPortion">Paycheck Employer Portion</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let employee of employees">
-      <td>{{ employee.EmployeeId }}</td>
-      <td>{{ employee.Employee }}</td>
-      <td>{{ employee.DependentCount }}</td>
-      <td>{{ employee.PayCheckAmount }}</td>
-      <td>{{ employee.YearBenefitCost }}</td>
-      <td *ngIf="employee.EmployeePortion">{{ employee.EmployeePortion }}</td>
-      <td *ngIf="employee.EmployerPortion">{{ employee.EmployerPortion }}</td>
-      <td *ngIf="employee.YearEmployeePortion">{{ employee.YearEmployeePortion }}</td>
-      <td *ngIf="employee.YearEmployerPortion">{{ employee.YearEmployerPortion}}</td>
-    </tr>
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th>Employee Id</th>
+        <th>Employee Name</th>
+        <th># of Dependents</th>
+        <th>Paycheck Amount</th>
+        <th>Paycheck Employee Portion</th>
+        <th>Paycheck Employer Portion</th>
+        <th>Yearly Benefit Cost</th>
+        <th>Yearly Employee Portion</th>
+        <th>Yearly Employer Portion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees">
+        <td>{{ employee.EmployeeId }}</td>
+        <td>{{ employee.Employee }}</td>
+        <td>{{ employee.DependentCount }}</td>
+        <td>{{ employee.PayCheckAmount | currency }}</td>
+        <td>{{ employee.EmployeePortion | currency }}</td>
+        <td>{{ employee.EmployerPortion | currency }}</td>
+        <td>{{ employee.YearBenefitCost | currency }}</td>
+        <td>{{ employee.YearEmployeePortion | currency }}</td>
+        <td>{{ employee.YearEmployerPortion | currency}}</td>
+      </tr>
+    </tbody>
+  </table>
 
 <div class="row">
-  <div class="col-sm-12">
-    <label>Yearly benefit costs for all employees: {{ totalEmployeeCost }} </label>
+    <div class="col-sm-12">
+      <label>Yearly benefit costs for all employees:<strong>{{ totalEmployeeCost | currency }}</strong></label>
+    </div>
   </div>
-</div>

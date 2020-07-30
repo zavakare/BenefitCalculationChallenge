@@ -1,8 +1,9 @@
 import { Component } from "@angular/core";
-import { EmployeeService } from "../../employee.service";
-import { TestClass, GridData, Benefit, Person } from "../../../employeeModel";
 import { MatTabChangeEvent } from "@angular/material/tabs";
+import { ToastrService } from 'ngx-toastr';
+import { Benefit, GridData, Person, TestClass } from "../../../employeeModel";
 import { BenefitService } from "../../benefit.service";
+import { EmployeeService } from "../../employee.service";
 
 @Component({
     selector: 'benefit-presentation',
@@ -15,11 +16,17 @@ export class BenefitPresentationComponent {
     tabSelected: string;
     employees: TestClass[] = [];
     gridData: GridData[] = <GridData[]>[];
+    submitted: boolean;
     constructor(private _employeeService: EmployeeService,
-        private _benefitService: BenefitService) { }
+        private _benefitService: BenefitService,
+        private toastr: ToastrService) { }
     addNewEmployee(emp: TestClass) {
         this._employeeService.add(emp).subscribe(
-            ret => console.log(ret)
+            ret => {
+                this.submitted = false;
+                this.toastr.success('Your employee was added Successfully!')
+                console.log(ret);
+            }
         );
     }
 
@@ -39,13 +46,13 @@ export class BenefitPresentationComponent {
         employeeInfo.forEach(employee => {
             let gridRow = <GridData>{
                 EmployeeId: employee.Id,
-                Employee: employee.LastName + ',' + employee.FirstName,
-                DependentCount: employee.Dependents.length,
+                Employee: employee.LastName + ', ' + employee.FirstName,
+                DependentCount: employee.Dependents ? employee.Dependents.length : 0,
                 PayCheckAmount: employee.PayCheckAmount,
                 YearBenefitCost: this._calculateEmployeeBenefitCost(
                     employee.FirstName,
                     benefitInfo.CostPerYear,
-                    benefitInfo.DependentCost,
+                    benefitInfo.CostPerDependent,
                     employee.Dependents,
                     benefitInfo.Discount),
             };
@@ -69,7 +76,7 @@ export class BenefitPresentationComponent {
     }
 
     private _getPersonCost(firstName: string, priceWithDiscount: number, fullPrice: number): number {
-        if (firstName.startsWith('A')) {
+        if (firstName.toUpperCase().startsWith('A')) {
             return priceWithDiscount;
         } else {
             return fullPrice;

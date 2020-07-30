@@ -1,36 +1,37 @@
-<form [formGroup]="employeeForm" class="form-group">
+<form [formGroup]="employeeForm" class="form-group container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <h2>Employee</h2>
-            <label>
-                First Name:
-                <input class="form-control" type="text" formControlName="firstName">
-            </label>
+            <div class="form-inline control-top">
+                <label>First Name: </label>
+                <input placeholder="Enter First Name" class="form-control" type="text" formControlName="firstName">
 
-            <label>
-                Last Name:
-                <input class="form-control" type="text" formControlName="lastName">
-            </label>
+            </div>
+            <div class="form-inline control-top">
+                <label>Last Name:</label>
+                <input placeholder="Enter Last Name" class="form-control" type="text" formControlName="lastName">
+            </div>
+                
         </div>
     </div>
 
-    <div class="row">
-        <h2 class="col-sm-8">Dependents</h2>
-        <button class="col-sm-4" (click)="addDependent()">Add Dependent</button>
+    <div class="row control-top">
+        <h2 class="col-sm-2">Dependents</h2>
+        <button mat-raised-button color="primary" class="col-sm-2" (click)="addDependent()">Add Dependent</button>
     </div>
 
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 form-inline control-top">
             <div formArrayName="dependents">
-                <div *ngFor="let item of dependentForms.controls; let dependentIndex=index" [formGroupName]="dependentIndex">
+                <div *ngFor="let item of dependentForms.controls; let dependentIndex=index" [formGroupName]="dependentIndex" class="form-inline">
                     <label>
                         First Name:
-                        <input class="form-control" formControlName="FirstName" />
+                        <input placeholder="Enter First Name" class="form-control" formControlName="FirstName" />
                     </label>
                     <label>
                         Last Name:
-                        <input class="form-control" formControlName="LastName" />
+                        <input  placeholder="Enter Last Name" class="form-control" formControlName="LastName" />
                     </label>
                 </div>
             </div>
@@ -40,19 +41,19 @@
     <div class="row">
         <div class="col-sm-12">
             <h2>Salary</h2>
-            <label>
+            <label class="form-inline">
                 Pay Check Amount:
-                <input class="form-control" type="text" formControlName="payCheckAmount">
+                <input placeholder="Enter Paycheck Amount" class="form-control" type="text" formControlName="payCheckAmount">
             </label>
 
-            <label>
+            <label class="form-inline control-top">
                 Total Pay Checks:
-                <input class="form-control" type="text" formControlName="totalPayChecks">
+                <input placeholder="Enter Paychecks Per Year" class="form-control" type="text" formControlName="totalPayChecks">
             </label>
         </div>
     </div>
 
 
-    <button (click)="save()">Save</button>
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
 
 </form>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Benefit } from '../../../employeeModel';
 import { BenefitService } from '../../benefit.service';
 
@@ -15,32 +15,41 @@ export class BenefitCriteriaComponent implements OnInit {
         discount: new FormControl(''),
     });
 
-    constructor(
-        private _formBuilder: FormBuilder,
-        private _benefitService: BenefitService) { }
+    constructor(private _benefitService: BenefitService) { }
 
     ngOnInit() {
-        this._benefitService.get().subscribe((data: Benefit[]) =>
-        {
-            this._benefitService.setBenefitInfo(data[0]);
-            this._setFormControls(data[0]);
-        });
+        if (this._benefitService.getBenefitInfo() && this._benefitService.getBenefitInfo().Id) {
+            this._setFormControls(this._benefitService.getBenefitInfo());
+        }
     }
 
     save() {
-        let benefitInfo = <Benefit>{
-            Id: this._benefitService.getBenefitInfo().Id,
-            CostPerYear: this.benefitForm.get('cost').value,
-            DependentCost: this.benefitForm.get('dependentCost').value,
-            Discount: +this.benefitForm.get('discount').value
-        };
-        this._benefitService.update(benefitInfo);
+        if (this._benefitService.getBenefitInfo() && this._benefitService.getBenefitInfo().Id) {
+            let benefitInfo = <Benefit>{
+                Id: this._benefitService.getBenefitInfo().Id,
+                CostPerYear: this.benefitForm.get('cost').value,
+                CostPerDependent: this.benefitForm.get('dependentCost').value,
+                Discount: +this.benefitForm.get('discount').value
+            };
+            this._benefitService.update(benefitInfo).subscribe(
+                ret => {this._benefitService.setBenefitInfo(benefitInfo);}
+            );
+        } else {
+            let benefitInfo = <Benefit>{
+                CostPerYear: this.benefitForm.get('cost').value,
+                CostPerDependent: this.benefitForm.get('dependentCost').value,
+                Discount: +this.benefitForm.get('discount').value
+            };
+            this._benefitService.add(benefitInfo).subscribe(
+                ret => {this._benefitService.setBenefitInfo(benefitInfo);}
+            );
+        }
     }
 
     private _setFormControls(data: Benefit) {
-        this._formBuilder.control('cost').setValue(data.CostPerYear);
-            this._formBuilder.control('dependentCost').setValue(data.DependentCost);
-            this._formBuilder.control('discount').setValue(data.Discount);
+        this.benefitForm.controls['cost'].setValue(data.CostPerYear);
+        this.benefitForm.controls['dependentCost'].setValue(data.CostPerDependent);
+        this.benefitForm.controls['discount'].setValue(data.Discount);
     }
 
 }

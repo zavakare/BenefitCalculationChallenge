@@ -15,6 +15,8 @@ import { BenefitCriteriaComponent } from './components/benefit-criteria/benefit-
 import { BenefitPresentationComponent } from './components/benefit-presentation/benefit-presentation.component';
 import { ViewEmployeesComponent } from './components/view-employees/view-employees.component';
 import { EmployeeService } from './employee.service';
+import { MatButtonModule } from '@angular/material/button';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -24,7 +26,7 @@ import { EmployeeService } from './employee.service';
     AddEmployeeComponent,
     BenefitPresentationComponent,
     BenefitCriteriaComponent,
-    BenefitCalculatorComponent
+    BenefitCalculatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,10 @@ import { EmployeeService } from './employee.service';
     MatTabsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatButtonToggleModule,
+    MatButtonModule,
+    ToastrModule.forRoot()
   ],
   providers: [EmployeeService, BenefitService],
   bootstrap: [AppComponent]

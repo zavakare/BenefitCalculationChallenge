@@ -10,6 +10,12 @@ export class BenefitService {
 
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+    this.get().subscribe((data: Benefit[]) =>
+    {
+        if (data.length) {
+            this.setBenefitInfo(data[0]);
+        }
+    });
   }
 
   public getBenefitInfo(): Benefit {
@@ -29,11 +35,11 @@ export class BenefitService {
   }
 
   public remove(payload) {
-    return this.http.delete(this.accessPointUrl + '/' + payload.id, {headers: this.headers});
+    return this.http.delete(this.accessPointUrl + '/' + payload.Id, {headers: this.headers});
   }
 
   public update(payload) {
-    return this.http.put(this.accessPointUrl + '/' + payload.id, payload, {headers: this.headers});
+    return this.http.put(this.accessPointUrl + '/' + payload.Id, payload, {headers: this.headers});
   }
 
 }
